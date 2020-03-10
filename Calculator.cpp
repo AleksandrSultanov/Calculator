@@ -8,9 +8,7 @@ Calculator::Calculator(QWidget* parent)
 	: QMainWindow(parent)
 {
 	ui.setupUi(this);
-	
-
-	//ui.lineEdit_input->setReadOnly(true);
+	ui.lineEdit_input->setReadOnly(true);
 	connect(ui.pushButton_0, SIGNAL(clicked()), this, SLOT(Digits_number()));
 	connect(ui.pushButton_1, SIGNAL(clicked()), this, SLOT(Digits_number()));
 	connect(ui.pushButton_2, SIGNAL(clicked()), this, SLOT(Digits_number()));
@@ -96,6 +94,7 @@ void Calculator::Hooks()
 }
 
 
+
 void Calculator::Button_point()
 {
 	if (ui.lineEdit_input->text() == "")
@@ -120,12 +119,14 @@ void Calculator::Button_point()
 	}
 }
 
+
+
 void Calculator::Trgnmtr()
 {
-	operat = 1;
 	QString input = (ui.lineEdit_input->text());
 	if ((input[0] == "s") && (input[1] == "i") && (input[2] == "n"))
 	{
+		operat = 1;
 		input.remove(0, 3);
 		double dinput = input.toDouble();
 		dinput = sin(dinput);
@@ -135,6 +136,7 @@ void Calculator::Trgnmtr()
 
 	if ((input[0] == "c") && (input[1] == "o") && (input[2] == "s"))
 	{
+		operat = 1;
 		input.remove(0, 3);
 		double dinput = input.toDouble();
 		dinput = cos(dinput);
@@ -144,6 +146,7 @@ void Calculator::Trgnmtr()
 
 	if ((input[0] == "t") && (input[1] == "g"))
 	{
+		operat = 1;
 		input.remove(0, 2);
 		double dinput = input.toDouble();
 		dinput = tan(dinput);
@@ -153,6 +156,7 @@ void Calculator::Trgnmtr()
 
 	if ((input[0] == "c") && (input[1] == "t") && (input[2] == "g"))
 	{
+		operat = 1;
 		input.remove(0, 3);
 		double dinput = input.toDouble();
 		dinput = 1 / tan(dinput);
@@ -161,6 +165,7 @@ void Calculator::Trgnmtr()
 	}
 	if ((input[0] == "s") && (input[1] == "q") && (input[2] == "r") && (input[3] == "t"))
 	{
+		operat = 1;
 		input.remove(0, 4);
 		double dinput = input.toDouble();
 		if (dinput >= 0)
@@ -174,106 +179,108 @@ void Calculator::Trgnmtr()
 }
 
 
+
 void Calculator::Parsit()
 {
 	QString input = (ui.lineEdit_input->text());
-	if (((input[input.size() - 1]) == "*") || ((input[input.size() - 1]) == "/") || ((input[input.size() - 1]) == "+") || ((input[input.size() - 1]) == "-"))
-		input.chop(1);
-	vector <QString> tokens;
-	double otvet = 0;
-	int pos_operat = 0;
-	bool first = 1;
-	for (int i = 0; i < input.size(); i++)
-		if ((input[i] == "*") || (input[i] == "/") || (input[i] == "+") || (input[i] == "-"))
-		{
-			QString number = "";
-			for (int j = pos_operat + 1; j < i; j++)
-				number += input[j];
-			if (first)
+	if ((ui.lineEdit_input->text())[ui.lineEdit_input->text().size() - 1] != ".")
+	{
+		QString number = "";
+		if (((input[input.size() - 1]) == "*") || ((input[input.size() - 1]) == "/") || ((input[input.size() - 1]) == "+") || ((input[input.size() - 1]) == "-"))
+			input.chop(1);
+		vector <QString> tokens;
+		double otvet = 0;
+		int pos_operat = 0;
+		bool first = 1;
+		for (int i = 0; i < input.size(); i++)
+			if ((input[i] == "*") || (input[i] == "/") || (input[i] == "+") || (input[i] == "-"))
 			{
-				tokens.push_back(input[0] + number);
-				first = 0;
-			}
-			else
-				tokens.push_back(number);
-			QString operat = input[i];
-			tokens.push_back(operat);
-
-			pos_operat = i;
-		}
-
-	QString number = "";
-	for (int j = pos_operat + 1; j < input.size(); j++)
-		number += input[j];
-	tokens.push_back(number);
-
-	for (int i = 0; i < tokens.size(); i++)
-		if ((tokens[i] == "*") || (tokens[i] == "/"))
-		{
-			if (tokens[i] == "*")
-			{
-				double result = (tokens[i - 1]).toDouble() * (tokens[i + 1]).toDouble();
-				tokens[i - 1] = QString::number(result, 'g', 15);
-				tokens[i + 1] = QString::number(result, 'g', 15);
-				tokens[i] = QString::number(result, 'g', 15);
-			}
-
-			if (tokens[i] == "/")
-			{
-				if (tokens[i + 1] == "0")
+				number = "";
+				for (int j = pos_operat + 1; j < i; j++)
+					number += input[j];
+				if (first)
 				{
+					tokens.push_back(input[0] + number);
+					first = 0;
+				}
+				else
+					tokens.push_back(number);
+
+				QString operat = input[i];
+				tokens.push_back(operat);
+
+				pos_operat = i;
+			}
+
+		number = "";
+		for (int j = pos_operat + 1; j < input.size(); j++)
+			number += input[j];
+		tokens.push_back(number);
+
+		for (int i = 0; i < tokens.size(); i++)
+			if ((tokens[i] == "*") || (tokens[i] == "/"))
+			{
+				if (tokens[i] == "*")
+				{
+					double result = (tokens[i - 1]).toDouble() * (tokens[i + 1]).toDouble();
+					tokens[i - 1] = QString::number(result, 'g', 15);
+					tokens[i + 1] = QString::number(result, 'g', 15);
+					tokens[i] = QString::number(result, 'g', 15);
+				}
+
+				if (tokens[i] == "/")
+				{
+					double result = (tokens[i - 1]).toDouble() / (tokens[i + 1]).toDouble();
+					tokens[i - 1] = QString::number(result, 'g', 15);
+					tokens[i + 1] = QString::number(result, 'g', 15);
+					tokens[i] = QString::number(result, 'g', 15);
+
+				}
+				otvet = (tokens[i]).toDouble();
+				ui.lineEdit_results->setText(QString::number(otvet, 'g', 15));
+				if (tokens[i] == "inf")
 					Error();
-					break;
-				}
-				double result = (tokens[i - 1]).toDouble() / (tokens[i + 1]).toDouble();
-				tokens[i - 1] = QString::number(result, 'g', 15);
-				tokens[i + 1] = QString::number(result, 'g', 15);
-				tokens[i] = QString::number(result, 'g', 15);
-			}
-			otvet = (tokens[i]).toDouble();
-			ui.lineEdit_results->setText(QString::number(otvet, 'g', 15));
-		}
 
-	for (int i = 0; i < tokens.size(); i++)
-		if ((tokens[i] == "+") || (tokens[i] == "-"))
-		{
-			if (tokens[i] == "+")
-			{
-				double result = (tokens[i - 1]).toDouble() + (tokens[i + 1]).toDouble();
-				tokens[i - 1] = QString::number(result, 'g', 15);
-				tokens[i + 1] = QString::number(result, 'g', 15);
-				tokens[i] = QString::number(result, 'g', 15);
-				otvet = (tokens[i]).toDouble();
-				int size = tokens.size() - 1;
-				while (tokens[i] != "+" && tokens[i] != "-" && i < size)
-				{
-					size--;
-					tokens.erase(tokens.begin() + i);
-				}
-				i = 0;
 			}
 
-			if (tokens[i] == "-")
+		for (int i = 0; i < tokens.size(); i++)
+			if ((tokens[i] == "+") || (tokens[i] == "-"))
 			{
-				double result = (tokens[i - 1]).toDouble() - (tokens[i + 1]).toDouble();
-				tokens[i - 1] = QString::number(result, 'g', 15);
-				tokens[i + 1] = QString::number(result, 'g', 15);
-				tokens[i] = QString::number(result, 'g', 15);
-				otvet = (tokens[i]).toDouble();
-				int size = tokens.size() - 1;
-				while (tokens[i] != "+" && tokens[i] != "-" && i < size)
+				if (tokens[i] == "+")
 				{
-					size--;
-					tokens.erase(tokens.begin() + i);
+					double result = (tokens[i - 1]).toDouble() + (tokens[i + 1]).toDouble();
+					tokens[i - 1] = QString::number(result, 'g', 15);
+					tokens[i + 1] = QString::number(result, 'g', 15);
+					tokens[i] = QString::number(result, 'g', 15);
+					otvet = (tokens[i]).toDouble();
+					int size = tokens.size() - 1;
+					while (tokens[i] != "+" && tokens[i] != "-" && i < size)
+					{
+						size--;
+						tokens.erase(tokens.begin() + i);
+					}
+					i = 0;
 				}
-				i = 0;
+
+				if (tokens[i] == "-")
+				{
+					double result = (tokens[i - 1]).toDouble() - (tokens[i + 1]).toDouble();
+					tokens[i - 1] = QString::number(result, 'g', 15);
+					tokens[i + 1] = QString::number(result, 'g', 15);
+					tokens[i] = QString::number(result, 'g', 15);
+					otvet = (tokens[i]).toDouble();
+					int size = tokens.size() - 1;
+					while (tokens[i] != "+" && tokens[i] != "-" && i < size)
+					{
+						size--;
+						tokens.erase(tokens.begin() + i);
+					}
+					i = 0;
+				}
+				ui.lineEdit_results->setText(QString::number(otvet, 'g', 15));
 			}
-			
-			ui.lineEdit_results->setText(QString::number(otvet, 'g', 15));
-			
-		}
+	}
 }
-
 
 
 
@@ -283,9 +290,10 @@ void Calculator::Input()
 	Parsit();
 }
 
+
+
 void Calculator::Percent()
 {
-
 	QPushButton* button = (QPushButton*)sender();
 	double input = (ui.lineEdit_input->text()).toDouble();
 	if (input != 0)
@@ -332,6 +340,8 @@ void Calculator::Delete()
 		Input();
 	}
 }
+
+
 
 void Calculator::Error()
 {
