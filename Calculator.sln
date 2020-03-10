@@ -1,0 +1,30 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.29806.167
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Calculator", "Calculator.vcxproj", "{5167C453-33F0-4182-9BC6-EC5EF2E00E0C}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{62CC44B8-A59C-4B9F-A3DA-44A0FD0CE3AA}"
+	ProjectSection(SolutionItems) = preProject
+		calculator85.png = calculator85.png
+	EndProjectSection
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|x64 = Debug|x64
+		Release|x64 = Release|x64
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{5167C453-33F0-4182-9BC6-EC5EF2E00E0C}.Debug|x64.ActiveCfg = Debug|x64
+		{5167C453-33F0-4182-9BC6-EC5EF2E00E0C}.Debug|x64.Build.0 = Debug|x64
+		{5167C453-33F0-4182-9BC6-EC5EF2E00E0C}.Release|x64.ActiveCfg = Release|x64
+		{5167C453-33F0-4182-9BC6-EC5EF2E00E0C}.Release|x64.Build.0 = Release|x64
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {95867112-3125-481B-9461-9E2A61555F82}
+	EndGlobalSection
+EndGlobal
